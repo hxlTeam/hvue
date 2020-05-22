@@ -11,10 +11,12 @@
   <script>
     const app = new HVue({
       data: {
-        test: 'hxl'
+        test: 'hxl',
+        foo: {bar: ''}
       }
     })
     app.$data.test = '我变了'
+    app.$data.foo.bar = '我变了'
   </script>
 </body>
 </html>

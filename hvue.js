@@ -21,9 +21,10 @@ class HVue {
       set(newVal) {
         if (newVal !== val) {
           val = newVal
-          console.log(`${key},更解了：${val}`);
+          console.log(`${key}更解了：${val}`);
         }
       }
     })
+    this.observe(val) // 递归
   }
 }
