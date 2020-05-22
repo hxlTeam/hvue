@@ -18,6 +18,18 @@ class HVue {
     Object.keys(data).forEach(key => {
       // 单独创建一个函数是有目的，后续会有说明
       this.defineReactive(data, key, data[key])
+      // 属性代码到vm上 
+      this.proxyData(key)
+    })
+  }
+  proxyData(key) {
+    Object.defineProperty(this, key, {
+      get() {
+        return this.$data[key];
+      },
+      set(newVal) {
+        this.$data[key] = newVal
+      }
     })
   }
   defineReactive(obj, key, val) {
@@ -44,7 +56,7 @@ class Dep {
     this.deps = [] // 每一属性都对应一个dep，每个dep可以对应多个watcher，所以用一个数组存储相应的watcher
   }
   addDep(dep) {
-    this.deps.push(dep) 
+    this.deps.push(dep)
   }
   notify() { // 通知更新视图
     this.deps.forEach(dep => dep.update())
