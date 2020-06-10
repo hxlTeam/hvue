@@ -5,10 +5,14 @@ class HVue {
 
     this.observe(this.$data) // 实现$data响应式
 
-    new Watcher()
-    this.$data.message
-    new Watcher()
-    this.$data.foo.bar
+    // new Watcher()
+    // this.$data.message
+    // new Watcher()
+    // this.$data.foo.bar
+    new Compile(options.el, this)
+    if (options.created) {
+      options.created.call(this)
+    }
   }
   observe(data) {
     if (!data || typeof data !== 'object') {
@@ -64,10 +68,17 @@ class Dep {
 }
 
 class Watcher {
-  constructor() {
+  constructor(vm, key, cb) {
+    this.vm = vm
+    this.key = key
+    this.cb = cb
+
     Dep.target = this // 每新建一个watcher实例时，会将Dep的静态属性指向新的实例
+    this.vm[this.key] // 添加watcher到dep
+    Dep.target = null
   }
   update() {
-    console.log('属性更新了');
+    // console.log('属性更新了');
+    this.cb.call(this.vm, this.vm[this.key])
   }
 }

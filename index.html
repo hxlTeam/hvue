@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
 </head>
+
 <body>
-  <script src="./hvue.js"></script>
+  <!-- <script src="./hvue.js"></script>
   <script>
     const app = new HVue({
       data: {
@@ -18,6 +20,43 @@
     app.$data.message = 'new message'
     app.$data.foo.bar = 'new bar'
     app.message = 'again update message'
+  </script> -->
+
+  <div id="app">
+    <p>{{message}}</p>
+    <p h-text="message"></p>
+    <p>{{count}}</p>
+    <p>{{doubleAge}}</p>
+    <input type="text" h-model="message">
+    <button @click="updateMeg">click me</button>
+    <div h-html="htmlStr"></div>
+  </div>
+
+  <script src="./hvue.js"></script>
+  <script src="./compile.js"></script>
+
+  <script>
+    const happ = new HVue({
+      el: '#app',
+      data: {
+        message: 'I am message',
+        count: 0,
+        htmlStr: '<button style="margin-top:10px;">我是htmlStr按钮</button>'
+      },
+      created() {
+        console.log('开始啦');
+        setTimeout(() => {
+          this.count++
+        }, 1000);
+      },
+      methods: {
+        updateMeg() {
+          this.count++
+          this.message = '更新了' + this.count
+        }
+      }
+    })
   </script>
 </body>
+
 </html>
